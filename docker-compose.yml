@@ -6,21 +6,23 @@ services:
     build: .
     image: flask_docker
     volumes:
-      - .:/flask
+      - data:/flask
     expose:
       - "5000"
     networks:
       - web
 
   nginx:
-    image: nginx:alpine
+    build: nginx/.
     volumes:
-      - ./static:/usr/share/nginx/html/static:ro
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - data:/flask:ro
     ports:
       - "80:80"
     networks:
       - web
+
+volumes:
+  data:
 
 networks:
   web:
